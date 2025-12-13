@@ -1,50 +1,11 @@
 import { useEffect, useState } from "react";
-import pImg from "./assets/images/image-1.jpg";
-import { getNewSize, get1Part, getRow } from "./util";
 import shuffle from "lodash.shuffle";
 
-interface PartSize {
-  width: number;
-  height: number;
-  // top: number;
-  // left: number;
-  bgPosX: number;
-  bgPosy: number;
-}
+import { getNewSize, get1Part, getTopLeft } from "./util";
+import type { PartSize } from "./types";
 
-function PartItem(partSize: PartSize & { top: number; left: number }) {
-  return (
-    <div
-      className="absolute top-0 left-0 bg-no-repeat"
-      style={{
-        width: `${partSize.width}px`,
-        height: `${partSize.height}px`,
-        top: `${partSize.top}px`,
-        left: `${partSize.left}px`,
-        backgroundImage: `url(${pImg})`,
-        backgroundPositionX: partSize.bgPosX,
-        backgroundPositionY: partSize.bgPosy,
-      }}
-    >
-      <span className="absolute w-full h-full bg-transparent hover:bg-amber-900 transition-all opacity-25"></span>
-    </div>
-  );
-}
-
-function getRowCol(m: number) {
-  const row = getRow(m) - 1;
-  const col = m - row * 8;
-
-  return [row, col];
-}
-
-function getTopLeft(m: number, pw: number, ph: number) {
-  const [row, col] = getRowCol(m);
-  const top = 1 * (row * ph);
-  const left = 1 * (col * pw);
-
-  return [top, left];
-}
+import pImg from "./assets/images/image-1.jpg";
+import PartItem from "./components/PartItem";
 
 function App() {
   const [, setDimension] = useState({ width: 0, height: 0 });
@@ -97,13 +58,14 @@ function App() {
           style={{
             width: `${divSize.width}px`,
             height: `${divSize.height}px`,
-            // backgroundImage: `url(${pImg})`,
           }}
         >
           {parts.map((m, i) => {
             const [top, left] = getTopLeft(i, partSize.width, partSize.height);
 
-            return <PartItem key={i} {...m} top={top} left={left} />;
+            return (
+              <PartItem key={i} {...m} top={top} left={left} pImg={pImg} />
+            );
           })}
         </div>
       </main>

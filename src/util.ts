@@ -35,3 +35,18 @@ export function getRow(val: number, expo = 8) {
 
   return row;
 }
+
+function getRowCol(m: number) {
+  const row = getRow(m) - 1;
+  const col = m - row * 8;
+
+  return [row, col];
+}
+
+export function getTopLeft(m: number, pw: number, ph: number) {
+  const [row, col] = getRowCol(m);
+  const top = 1 * (row * ph);
+  const left = 1 * (col * pw);
+
+  return [top, left];
+}
