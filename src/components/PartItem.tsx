@@ -6,7 +6,6 @@ type Props = PartSize & {
   left: number;
   pImg: string;
   isSource: boolean;
-  isTarget: boolean;
   selectedSource: boolean;
   onClick: () => void;
 };
@@ -14,10 +13,7 @@ type Props = PartSize & {
 export default function PartItem(prop: Props) {
   return (
     <div
-      className={classNames("absolute top-0 left-0 bg-no-repeat", {
-        "cursor-default": !prop.isSource,
-        "cursor-pointer": prop.isSource || prop.isTarget,
-      })}
+      className="absolute top-0 left-0 bg-no-repeat cursor-pointer"
       onClick={prop.onClick}
       style={{
         width: `${prop.width}px`,
@@ -30,13 +26,11 @@ export default function PartItem(prop: Props) {
       }}
     >
       <span
-        className={classNames("absolute w-full h-full", {
-          "bg-transparent hover:bg-amber-900 transition-all opacity-25":
-            !prop.selectedSource,
-          "opacity-95": !prop.isTarget && prop.selectedSource,
-          "opacity-65 border-3 border-indigo-700": prop.isTarget,
-          "border-3 border-red-700": prop.isSource,
-          "bg-gray-900": !prop.isSource,
+        className={classNames("absolute w-full h-full transition-all", {
+          "bg-transparent hover:bg-amber-900 opacity-25": !prop.selectedSource,
+          "opacity-65 border-3 border-red-800 cursor-move": prop.isSource,
+          "bg-black opacity-60 hover:opacity-30 cursor-pointer":
+            prop.selectedSource && !prop.isSource,
         })}
       ></span>
     </div>

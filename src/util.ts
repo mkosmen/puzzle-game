@@ -16,13 +16,13 @@ export function get1Part({
   colSize: number;
   rowSize: number;
 }) {
-  const widthSize = Math.floor(width / colSize);
-  const heightSize = Math.floor(height / rowSize);
+  const widthSize = Math.round(width / colSize);
+  const heightSize = Math.round(height / rowSize);
 
   return [widthSize, heightSize];
 }
 
-export function getRow(val: number, expo = 8) {
+export function getRow(val: number, expo: number) {
   let row = 1;
 
   while (true) {
@@ -36,15 +36,25 @@ export function getRow(val: number, expo = 8) {
   return row;
 }
 
-function getRowCol(m: number) {
-  const row = getRow(m) - 1;
-  const col = m - row * 8;
+function getRowCol(m: number, expo: number) {
+  const row = getRow(m, expo) - 1;
+  const col = m - row * expo;
 
   return [row, col];
 }
 
-export function getTopLeft(m: number, pw: number, ph: number) {
-  const [row, col] = getRowCol(m);
+export function getTopLeft({
+  m,
+  pw,
+  ph,
+  expo,
+}: {
+  m: number;
+  pw: number;
+  ph: number;
+  expo: number;
+}) {
+  const [row, col] = getRowCol(m, expo);
   const top = 1 * (row * ph);
   const left = 1 * (col * pw);
 
@@ -53,4 +63,11 @@ export function getTopLeft(m: number, pw: number, ph: number) {
 
 export function copy<T>(val: object, options?: StructuredSerializeOptions) {
   return structuredClone(val, options) as T;
+}
+
+export function getTimeOf(val: number) {
+  const minute = Math.floor(val / 60);
+  const second = val - minute * 60;
+
+  return { second, minute };
 }
