@@ -8,18 +8,18 @@ export function getNewSize(width: number, height: number) {
 export function get1Part({
   width,
   height,
-  partSizeX = 8,
-  partSizeY = 4,
+  colSize,
+  rowSize,
 }: {
   width: number;
   height: number;
-  partSizeX?: number;
-  partSizeY?: number;
+  colSize: number;
+  rowSize: number;
 }) {
-  const widthSize = Math.floor(width / partSizeX);
-  const heightSize = Math.floor(height / partSizeY);
+  const widthSize = Math.floor(width / colSize);
+  const heightSize = Math.floor(height / rowSize);
 
-  return [widthSize, heightSize, partSizeX * partSizeY];
+  return [widthSize, heightSize];
 }
 
 export function getRow(val: number, expo = 8) {
@@ -49,4 +49,8 @@ export function getTopLeft(m: number, pw: number, ph: number) {
   const left = 1 * (col * pw);
 
   return [top, left];
+}
+
+export function copy<T>(val: object, options?: StructuredSerializeOptions) {
+  return structuredClone(val, options) as T;
 }
